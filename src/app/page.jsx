@@ -1,77 +1,57 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import Image from "next/image";
+import React from "react";
+import Logo from "@/img/logo.png";
+import Login from "@/components/join/Login";
+import CreateAccount from "@/components/join/CreateAccount"
+import { useSelector, useDispatch } from "react-redux";
+import { increment } from "@/features/loginState";
+import { createAccountOpen } from "@/features/createAccounState";
 
-export default function FirstPage() {
-  const router = useRouter();
-  const [error, setError] = useState(null);
+export default function JoinPage() {
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-
-  function handleInputChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  async function getAccounts(formData) {
-    const req = await fetch("https://x-json.vercel.app/accounts");
-    const res = await req.json();
-
-    let found = false;
-
-    res.map((item) => {
-      if (
-        (item.username === formData.username ||
-          item.email === formData.username) &&
-        item.password === formData.password
-      ) {
-        router.push("/home");
-        found = true;
-      }
-    });
-
-    found ? setError(null) : setError("*Username or password is invalid");
-  }
+  const loginState = useSelector((state) => state.loginState.value);
+  // const createAccountState = useSelector((state) => state.createAccountState.value);
+  const dispatch = useDispatch();
 
   return (
-    <div className="bg-[#000]">
-      <h1 className="text-center text-[#fff] text-4xl font-bold">First page</h1>
+    <main>
+      <section className="mx-auto pt-4 px-5 max-w-[343px] sm:max-w-[540px] lg:max-w-[1320px] lg:grid lg:grid-cols-2 gap-16">
+        <div className="mb-8 lg:blur-sm">
+          <Image
+            src={Logo}
+            width={5000}
+            height={5000}
+            className="w-11 h-11 lg:w-full lg:h-auto"
+          />
+        </div>
+        <div className="text-white">
+          <h1 className="text-[40px] font-bold leading-[52px] mb-8 sm:text-[64px] sm:leading-[84px]">
+            Happening now
+          </h1>
 
-      <div className="mx-auto w-1/2 py-10">
-        <form
-          onSubmit={(e) => {
-            getAccounts(formData);
-            e.preventDefault();
-          }}
-          className="flex flex-col gap-2"
-        >
-          <label htmlFor="username">Username or e-mail: </label>
-          <input
-            className="px-3 py-1 bg-[#000] border border-[#fff] outline-none"
-            type="text"
-            name="username"
-            onChange={handleInputChange}
-          />
-          <br />
-          <label htmlFor="password">Password: </label>
-          <input
-            className="px-3 py-1 bg-[#000] border border-[#fff] outline-none"
-            type="password"
-            name="password"
-            onChange={handleInputChange}
-          />
-          <br />
-          {error && <p className="text-xs text-[red] font-semibold tracking-widest">{error}</p>}
-          <button className="bg-[#fff] text-[#000] px-5 py-2" type="submit">
-            Submit
+          <h3 className="text-[23px] font-bold leading-[28px] mb-3 sm:text-[31px] sm:leading-[36px]">
+            Join today.
+          </h3>
+
+          <button className="w-full mb-10 text-[17px] leading-[20px] font-bold text-center bg-amber-400 py-3 rounded-3xl hover:bg-amber-600 transition-colors">
+            Create account
           </button>
-        </form>
-      </div>
-    </div>
+
+          <p className="text-[17px] leading-[20px] font-bold mb-4">
+            Already have an account?
+          </p>
+
+          <button
+            onClick={() => dispatch(increment())}
+            className="w-full text-[17px] leading-[20px] font-bold text-center py-3 border border-[#ffde201a] rounded-3xl hover:bg-[#ffde200a] transition-colors"
+          >
+            Sing in
+          </button>
+        </div>
+
+        {loginState && <Login />}
+        {createAccountState && <CreateAccount />}
+      </section>
+    </main>
   );
 }
