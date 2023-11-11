@@ -3,14 +3,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { decrement } from "@/features/loginState";
-
+import { singInPopClose } from "@/feature/singInPopUp";
 export default function Login({}) {
   const router = useRouter();
   const [error, setError] = useState(null);
-
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
     username: "",
@@ -45,13 +42,11 @@ export default function Login({}) {
   }
 
   return (
-    <div className="bg-[#000] absolute inset-0 px-5 md:bg-transparent md:backdrop-blur-sm md:flex md:items-center md:justify-center">
+    <div className="bg-[#000] absolute inset-0 px-5 md:bg-transparent md:backdrop-blur-md md:flex md:items-center md:justify-center">
       <div className="bg-[#000] mx-auto w-full py-10 md:w-1/2 md:px-3 md:border md:border-white md:rounded-2xl">
-        <AiOutlineClose className="text-white w-6 h-6" onClick={()=>dispatch(decrement())}/>
+        <AiOutlineClose className="text-white w-6 h-6" onClick={()=>dispatch(singInPopClose())}/>
 
-        <h1 className="text-center text-[#fff] text-4xl font-bold">
-          Log in
-        </h1>
+        <h1 className="text-center text-[#fff] text-4xl font-bold">Log in</h1>
         <form
           onSubmit={(e) => {
             getAccounts(formData);

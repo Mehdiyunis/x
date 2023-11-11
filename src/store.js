@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import loginReducer from './features/loginState'
-import createAccounReducer from './features/createAccounState'
+import singInPopUpReducer from './feature/singInPopUp'
+import createPopUpReducer from './feature/createPopUp'
 
 export const store = configureStore({
   reducer: {
-    loginState: loginReducer,
-    createAccountState: createAccounReducer
+    singInPopUp: singInPopUpReducer,
+    createPopup: createPopUpReducer,
   },
 })

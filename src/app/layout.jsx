@@ -1,10 +1,9 @@
 "use client";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import { usePathname } from "next/navigation";
-import { store } from "@/store";
-import { Provider } from "react-redux";
-
 export default function RootLayout({ children }) {
   const pathname = usePathname();
   const showHeader = pathname == "/" ? false : true;

@@ -1,17 +1,17 @@
+'use client'
 import Image from "next/image";
 import React from "react";
 import Logo from "@/img/logo.png";
 import Login from "@/components/join/Login";
 import CreateAccount from "@/components/join/CreateAccount"
 import { useSelector, useDispatch } from "react-redux";
-import { increment } from "@/features/loginState";
-import { createAccountOpen } from "@/features/createAccounState";
+import { singInPopOpen } from "@/feature/singInPopUp";
+import { openCreatePopup } from "@/feature/createPopUp";
 
 export default function JoinPage() {
-
-  const loginState = useSelector((state) => state.loginState.value);
-  // const createAccountState = useSelector((state) => state.createAccountState.value);
-  const dispatch = useDispatch();
+  const singInSituation = useSelector((state)=>state.singInPopUp.value);
+  const createPopup = useSelector((state)=>state.createPopup.value);
+  const dispatch=useDispatch();
 
   return (
     <main>
@@ -33,7 +33,9 @@ export default function JoinPage() {
             Join today.
           </h3>
 
-          <button className="w-full mb-10 text-[17px] leading-[20px] font-bold text-center bg-amber-400 py-3 rounded-3xl hover:bg-amber-600 transition-colors">
+          <button 
+          onClick={()=>dispatch(openCreatePopup())}
+          className="w-full mb-10 text-[17px] leading-[20px] font-bold text-center bg-amber-400 py-3 rounded-3xl hover:bg-amber-600 transition-colors">
             Create account
           </button>
 
@@ -42,15 +44,15 @@ export default function JoinPage() {
           </p>
 
           <button
-            onClick={() => dispatch(increment())}
             className="w-full text-[17px] leading-[20px] font-bold text-center py-3 border border-[#ffde201a] rounded-3xl hover:bg-[#ffde200a] transition-colors"
+            onClick={()=>dispatch(singInPopOpen())}
           >
             Sing in
           </button>
         </div>
 
-        {loginState && <Login />}
-        {createAccountState && <CreateAccount />}
+        {singInSituation && <Login />}
+        { createPopup && <CreateAccount />}
       </section>
     </main>
   );
