@@ -1,21 +1,21 @@
-'use client'
+"use client";
 import Image from "next/image";
 import React from "react";
 import Logo from "@/img/logo.png";
 import Login from "@/components/join/Login";
-import CreateAccount from "@/components/join/CreateAccount"
+import CreateAccount from "@/components/join/CreateAccount";
 import { useSelector, useDispatch } from "react-redux";
 import { singInPopOpen } from "@/feature/singInPopUp";
 import { openCreatePopup } from "@/feature/createPopUp";
 
 export default function JoinPage() {
-  const singInSituation = useSelector((state)=>state.singInPopUp.value);
-  const createPopup = useSelector((state)=>state.createPopup.value);
-  const dispatch=useDispatch();
+  const singInSituation = useSelector((state) => state.singInPopUp.value);
+  const createPopup = useSelector((state) => state.createPopup.value);
+  const dispatch = useDispatch();
 
   return (
     <main>
-      <section className="mx-auto pt-4 px-5 max-w-[343px] sm:max-w-[540px] lg:max-w-[1320px] lg:grid lg:grid-cols-2 gap-16">
+      <section className="mx-auto py-4 px-5 max-w-[343px] sm:max-w-[540px] lg:max-w-[1320px] lg:grid lg:grid-cols-2 gap-16">
         <div className="mb-8 lg:blur-sm">
           <Image
             src={Logo}
@@ -33,9 +33,10 @@ export default function JoinPage() {
             Join today.
           </h3>
 
-          <button 
-          onClick={()=>dispatch(openCreatePopup())}
-          className="w-full mb-10 text-[17px] leading-[20px] font-bold text-center bg-amber-400 py-3 rounded-3xl hover:bg-amber-600 transition-colors">
+          <button
+            onClick={() => dispatch(openCreatePopup())}
+            className="w-full mb-10 text-[17px] leading-[20px] font-bold text-center bg-amber-400 py-3 rounded-3xl hover:bg-amber-600 transition-colors"
+          >
             Create account
           </button>
 
@@ -45,14 +46,23 @@ export default function JoinPage() {
 
           <button
             className="w-full text-[17px] leading-[20px] font-bold text-center py-3 border border-[#ffde201a] rounded-3xl hover:bg-[#ffde200a] transition-colors"
-            onClick={()=>dispatch(singInPopOpen())}
+            onClick={() => dispatch(singInPopOpen())}
           >
             Sing in
           </button>
+
+          <p className="mt-3 text-[12px]">
+            Creator, dolor sit amet{" "}
+            <span className="text-blue-700">consectetur</span> adipisicing elit.
+            Fugiat iste doloremque enim quidem mehdi accusantium voluptatibus
+            earum tenetur fugit iusto! Placeat iste dolor{" "}
+            <span className="text-blue-700">nostrum</span> sapiente reiciendis
+            quis quas numquam amet provident.
+          </p>
         </div>
 
         {singInSituation && <Login />}
-        { createPopup && <CreateAccount />}
+        {createPopup && <CreateAccount />}
       </section>
     </main>
   );

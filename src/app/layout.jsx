@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Provider store={store}>
-          <div className="bg-black min-h-screen">
+          <div className="bg-black min-h-screen h-full">
             {showHeader && <Header />}
             {children}
           </div>
