@@ -4,8 +4,10 @@ import { closeCreatePopup } from "@/feature/createPopUp";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CreateAccount() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [countrys, setCountrys] = useState();
   const [selectedCountry, setSelectedCountry] = useState("Select Country"); // selected country
@@ -24,7 +26,7 @@ export default function CreateAccount() {
     countryNumber: "",
     phoneNumber: "",
   });
-  const [haveAccount, setHaveAccount] = useState(false)
+  const [accounts, setAccounts] = useState([]);
 
   function handleInputChange(e) {
     setUserInfo({
@@ -45,36 +47,22 @@ export default function CreateAccount() {
     setCountrys(req.data);
   };
 
+  const getAccounts = async function() {
+    const req = await axios.get("https://x-json.vercel.app/accounts");
+    console.log(req.data);
+    setAccounts(req.data);
+  }
+
   useEffect(() => {
     getCountrys();
+    getAccounts();
   }, []);
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
-
-  useEffect(checkAccount, [userInfo])
-
-  async function checkAccount(){
-    const res = await axios.get("https://x-json.vercel.app/accounts");
-    res.data.map((item) => {
-      if (
-        item.username === userInfo.username ||
-        item.email === userInfo.email
-      ) {
-        setHaveAccount(true)
-      }
-      else{setHaveAccount(false)}
-    });
-  }
-
-
-  function accountAlert(){
-    // alert("This email or name is available") 
-  }
-
   async function postUserInfo() {
-
+    const haveAccount = await accounts.find(
+      (item) =>
+        item.username == userInfo.username || item.email == userInfo.email
+    );
     if (userInfo.name === "") {
       alert("Enter name!");
     } else if (userInfo.surname === "") {
@@ -91,16 +79,19 @@ export default function CreateAccount() {
       alert("Enter born month!");
     } else if (userInfo.bornYear === "") {
       alert("Enter born year!");
-    }
-    else{
-    axios
-      .post("https://x-json.vercel.app/accounts", userInfo)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    } else if (haveAccount) {
+      alert("This name or email is available");
+    } else {
+      axios
+        .post("https://x-json.vercel.app/accounts", userInfo)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      alert("Accound saved")
+      router.push("/home")
     }
   }
 
@@ -109,6 +100,7 @@ export default function CreateAccount() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          postUserInfo()
         }}
         className="bg-[#000] mx-auto w-full  flex flex-col gap-2 py-10 text-white md:w-1/2 md:px-3 md:border md:border-white md:rounded-2xl"
       >
@@ -256,11 +248,7 @@ export default function CreateAccount() {
           placeholder="Password: again"
           className="px-3 py-1 bg-[#000] border border-[#fff] outline-none text-white"
         />
-        <button
-          onClick={haveAccount ? accountAlert :postUserInfo }
-          type="submit"
-          className="bg-[#fff] text-[#000] px-5 py-2"
-        >
+        <button type="submit" className="bg-[#fff] text-[#000] px-5 py-2">
           Submit
         </button>
       </form>
