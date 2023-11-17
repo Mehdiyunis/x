@@ -19,6 +19,7 @@ export default function CreateAccount() {
     username: "",
     email: "",
     password: "",
+    userImg: false,
     bornDay: "",
     bornMonth: "",
     bornYear: "",
@@ -90,8 +91,8 @@ export default function CreateAccount() {
         .catch(function (error) {
           console.log(error);
         });
-      alert("Accound saved")
-      router.push("/home")
+      alert("Accound saved");
+      router.push("/home");
     }
   }
 

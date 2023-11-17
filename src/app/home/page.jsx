@@ -1,9 +1,17 @@
-import React from 'react'
+import Posts from "@/components/home/Posts";
+import React from "react";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <main>
+      {/* write post */}
+        <Posts/>
+      {/* posts */}
+      <section>
 
-export default Home
+      </section>
+    </main>
+  );
+};
+
+export default Home;
